@@ -64,7 +64,7 @@ const form = document.getElementById('covidForm');
             riskBadge.textContent = riskLevel;
             riskBadge.className = 'risk-badge ' + riskClass;
             const entry = {
-                type: 'covid-19',
+                type: 'covid',
                 timestamp: new Date().toISOString(),
                 inputs: data,
                 result: {

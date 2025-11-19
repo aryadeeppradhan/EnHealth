@@ -88,8 +88,8 @@ const form = document.getElementById('sleepForm');
             modalTitle.textContent = title;
             modalMessage.textContent = message;
             disorderBadge.setAttribute('style', badgeStyle);
-            const entry = {
-                type: 'Sleep Disorder',
+                const entry = {
+                    type: 'sleep',
                 timestamp: new Date().toISOString(),
                 inputs: data,
                 result: {

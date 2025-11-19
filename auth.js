@@ -1,73 +1,165 @@
 (() => {
-  const USERS_KEY = 'enHealth:users';
-  const SESSION_KEY = 'enHealth:session';
-  const scriptSrc = document.currentScript?.src || new URL('auth.js', window.location.href).href;
-  const loginUrl = new URL('login.html', scriptSrc);
+  const TOKEN_KEY = 'enHealth:token';
+  const API_BASE = '/api';
+  const loginUrl = new URL('/login.html', window.location.origin);
 
-  const readUsers = () => JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-  const writeUsers = (users) => localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  let cachedUser = null;
+  let inflightUserPromise = null;
 
-  const assertLoggedIn = () => {
-    const email = sessionStorage.getItem(SESSION_KEY);
-    if (!email) throw new Error('Not authenticated');
-    return email;
+  const getToken = () => sessionStorage.getItem(TOKEN_KEY);
+  const setToken = (token) => {
+    if (token) {
+      sessionStorage.setItem(TOKEN_KEY, token);
+    } else {
+      sessionStorage.removeItem(TOKEN_KEY);
+    }
+  };
+
+  const redirectToLogin = () => {
+    const next = window.location.pathname + window.location.search + window.location.hash;
+    const target = new URL(loginUrl.href);
+    target.searchParams.set('next', next);
+    window.location.replace(target);
+  };
+
+  const apiRequest = async (endpoint, options = {}) => {
+    const headers = new Headers(options.headers || {});
+    const token = getToken();
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    if (options.body && !headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json');
+    }
+
+    let response;
+    try {
+      response = await fetch(`${API_BASE}${endpoint}`, {
+        ...options,
+        headers
+      });
+    } catch (networkError) {
+      throw new Error('Network error. Please try again.');
+    }
+
+    let data = null;
+    if (response.status !== 204) {
+      try {
+        data = await response.json();
+      } catch (err) {
+        data = null;
+      }
+    }
+
+    if (response.status === 401) {
+      setToken(null);
+      cachedUser = null;
+    }
+
+    if (!response.ok) {
+      throw new Error(data?.error || 'Request failed');
+    }
+
+    return data;
+  };
+
+  const fetchCurrentUser = () => {
+    if (!getToken()) {
+      return Promise.reject(new Error('No active session'));
+    }
+
+    if (cachedUser) {
+      return Promise.resolve(cachedUser);
+    }
+
+    if (!inflightUserPromise) {
+      inflightUserPromise = apiRequest('/auth/me')
+        .then((data) => {
+          cachedUser = data;
+          return data;
+        })
+        .finally(() => {
+          inflightUserPromise = null;
+        });
+    }
+
+    return inflightUserPromise;
   };
 
   const api = {
-    register(email, password) {
-      const users = readUsers();
-      if (users[email]) throw new Error('Account already exists');
-      users[email] = { password, createdAt: new Date().toISOString(), history: [] };
-      writeUsers(users);
-      sessionStorage.setItem(SESSION_KEY, email);
+    async register(email, password) {
+      const payload = { email, password };
+      const data = await apiRequest('/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      setToken(data.token);
+      cachedUser = data.user;
+      return data.user;
     },
 
-    login(email, password) {
-      const users = readUsers();
-      const user = users[email];
-      if (!user) throw new Error('Account not found');
-      if (user.password !== password) throw new Error('Wrong password');
-      sessionStorage.setItem(SESSION_KEY, email);
+    async login(email, password) {
+      const payload = { email, password };
+      const data = await apiRequest('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      setToken(data.token);
+      cachedUser = data.user;
+      return data.user;
     },
 
-    logout() {
-      sessionStorage.removeItem(SESSION_KEY);
-      window.location.replace(loginUrl.href);
+    async logout() {
+      try {
+        if (getToken()) {
+          await apiRequest('/auth/logout', { method: 'POST' });
+        }
+      } catch (err) {
+        console.error('Logout failed', err);
+      } finally {
+        cachedUser = null;
+        setToken(null);
+        window.location.replace(loginUrl.href);
+      }
     },
 
     isLoggedIn() {
-      return Boolean(sessionStorage.getItem(SESSION_KEY));
+      return Boolean(getToken());
     },
 
-    getCurrentUser() {
-      const email = sessionStorage.getItem(SESSION_KEY);
-      if (!email) return null;
-      const users = readUsers();
-      const user = users[email];
-      return user ? { email, ...user } : null;
+    async getCurrentUser() {
+      return fetchCurrentUser();
     },
 
     requireAuth() {
       if (!api.isLoggedIn()) {
-        const next = window.location.pathname + window.location.search + window.location.hash;
-        const target = new URL(loginUrl.href);
-        target.searchParams.set('next', next);
-        window.location.replace(target);
+        redirectToLogin();
+        return;
+      }
+
+      fetchCurrentUser().catch(() => redirectToLogin());
+    },
+
+    async saveHistory(entry) {
+      if (!api.isLoggedIn()) return;
+      const payload = {
+        type: entry.type,
+        inputs: entry.inputs,
+        result: entry.result
+      };
+      try {
+        await apiRequest('/history', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error('Failed to save history', err);
       }
     },
 
-    saveHistory(entry) {
-      const email = assertLoggedIn();
-      const users = readUsers();
-      const user = users[email];
-      user.history = [entry, ...(user.history || [])].slice(0, 50);
-      writeUsers(users);
-    },
-
-    getHistory() {
-      const email = assertLoggedIn();
-      const user = readUsers()[email];
-      return user?.history || [];
+    async getHistory() {
+      const data = await apiRequest('/history');
+      return data?.history || [];
     }
   };
 
@@ -76,14 +168,10 @@
   document.addEventListener('DOMContentLoaded', () => {
     const isPublic = document.body.hasAttribute('data-public');
     if (!isPublic) {
-      try {
-        api.requireAuth();
-      } catch {
-        return;
-      }
+      api.requireAuth();
     }
 
-    const logoutButtons = document.querySelectorAll('[data-action=\"logout\"]');
+    const logoutButtons = document.querySelectorAll('[data-action="logout"]');
     logoutButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         event.preventDefault();

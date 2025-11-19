@@ -9,28 +9,34 @@ document.addEventListener('DOMContentLoaded', () => {
     toggle.textContent = mode === 'login' ? 'Create account instead' : 'Already have an account?';
   });
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const data = new FormData(form);
     const email = data.get('email').trim().toLowerCase();
     const password = data.get('password');
 
+    status.textContent = '';
+
     try {
       if (mode === 'signup') {
-        EnHealthAuth.register(email, password);
+        await EnHealthAuth.register(email, password);
       } else {
-        EnHealthAuth.login(email, password);
+        await EnHealthAuth.login(email, password);
       }
 
       const params = new URLSearchParams(window.location.search);
       const next = params.get('next') || 'health.html';
       window.location.replace(next);
     } catch (err) {
-      status.textContent = err.message;
+      status.textContent = err.message || 'Unable to process request';
     }
   });
 
   if (EnHealthAuth.isLoggedIn()) {
-    window.location.replace('health.html');
+    EnHealthAuth.getCurrentUser()
+      .then(() => window.location.replace('health.html'))
+      .catch(() => {
+        // Ignore invalid sessions; user can log in again.
+      });
   }
 });

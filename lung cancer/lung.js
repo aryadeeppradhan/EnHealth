@@ -48,11 +48,11 @@ const form = document.getElementById('lungCancerForm');
                     prediction: Math.random() > 0.5 ? 'low' : 'high'
                 };
                 
-                showResult(simulatedResult);
+                showResult(simulatedResult, data);
             }, 2500);
         });
 
-        function showResult(result) {
+        function showResult(result, inputs) {
             const modal = document.getElementById('resultModal');
             const modalIcon = document.getElementById('modalIcon');
             const modalTitle = document.getElementById('modalTitle');
@@ -63,12 +63,13 @@ const form = document.getElementById('lungCancerForm');
             riskPercentage.textContent = result.riskPercentage + '%';
             
             // Determine risk level and customize modal content
-            let icon, title, message;
+            let icon, title, message, riskLevel;
             
             if (result.riskPercentage < 30 || result.prediction === 'low') {
                 icon = '✅';
                 title = 'Low Risk Detected';
                 message = 'Based on your health profile, you have a low risk of lung cancer. Continue maintaining a healthy lifestyle and regular check-ups with your healthcare provider.';
+                riskLevel = 'low';
                 riskPercentage.style.borderColor = '#4ade80';
                 riskPercentage.style.color = '#4ade80';
                 riskPercentage.style.background = 'linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 197, 94, 0.2))';
@@ -76,6 +77,7 @@ const form = document.getElementById('lungCancerForm');
                 icon = '⚠️';
                 title = 'Moderate Risk Detected';
                 message = 'Your assessment indicates moderate risk. We recommend scheduling a consultation with a pulmonologist, maintaining a healthy lifestyle, and considering regular screening tests.';
+                riskLevel = 'moderate';
                 riskPercentage.style.borderColor = '#fbbf24';
                 riskPercentage.style.color = '#fbbf24';
                 riskPercentage.style.background = 'linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))';
@@ -83,6 +85,7 @@ const form = document.getElementById('lungCancerForm');
                 icon = '🚨';
                 title = 'High Risk Detected';
                 message = 'Your assessment indicates high risk. We strongly recommend immediate consultation with a healthcare professional for comprehensive evaluation and screening. Early detection is crucial.';
+                riskLevel = 'high';
                 riskPercentage.style.borderColor = '#ef4444';
                 riskPercentage.style.color = '#ef4444';
                 riskPercentage.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2))';
@@ -92,11 +95,12 @@ const form = document.getElementById('lungCancerForm');
             modalTitle.textContent = title;
             modalMessage.textContent = message;
             const entry = {
-                type: 'Lung Cancer',
+                type: 'lung',
                 timestamp: new Date().toISOString(),
-                inputs: data,
+                inputs,
                 result: {
                     riskLevel,
+                    percentage: result.riskPercentage,
                     title: modalTitle.textContent,
                     message: modalMessage.textContent
                 }

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cov.css">
+    <title>EnHealth - COVID-19 Risk Assessment</title>
+
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <nav>
+        <div class="logo">EnHealth</div>
+        <ul class="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/health.html">Health</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">
+                <span class="title-icon">🦠</span>
+                COVID-19 Risk Assessment
+            </h1>
+            <p class="form-subtitle">Answer the following questions to assess your COVID-19 risk level</p>
+        </div>
+
+        <div class="warning-banner">
+            <span class="warning-icon">⚠️</span>
+            <p class="warning-text">
+                <strong>Important:</strong> This assessment is for informational purposes only and is not a substitute for professional medical advice. If you're experiencing severe symptoms, please seek immediate medical attention or call emergency services.
+            </p>
+        </div>
+
+        <form id="covidForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Breathing Problem</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="breathing-yes" name="breathingProblem" value="yes" required>
+                            <label for="breathing-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="breathing-no" name="breathingProblem" value="no">
+                            <label for="breathing-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Fever</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="fever-yes" name="fever" value="yes" required>
+                            <label for="fever-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="fever-no" name="fever" value="no">
+                            <label for="fever-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Dry Cough</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="cough-yes" name="dryCough" value="yes" required>
+                            <label for="cough-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="cough-no" name="dryCough" value="no">
+                            <label for="cough-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Sore Throat</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="throat-yes" name="soreThroat" value="yes" required>
+                            <label for="throat-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="throat-no" name="soreThroat" value="no">
+                            <label for="throat-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Hypertension</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="hypertension-yes" name="hypertension" value="yes" required>
+                            <label for="hypertension-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="hypertension-no" name="hypertension" value="no">
+                            <label for="hypertension-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Abroad Travel</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="travel-yes" name="abroadTravel" value="yes" required>
+                            <label for="travel-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="travel-no" name="abroadTravel" value="no">
+                            <label for="travel-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact with COVID Patient</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="contact-yes" name="covidContact" value="yes" required>
+                            <label for="contact-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="contact-no" name="covidContact" value="no">
+                            <label for="contact-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Attended Large Gathering</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="gathering-yes" name="largeGathering" value="yes" required>
+                            <label for="gathering-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="gathering-no" name="largeGathering" value="no">
+                            <label for="gathering-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Visited Public Exposed Places</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="public-yes" name="publicPlaces" value="yes" required>
+                            <label for="public-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="public-no" name="publicPlaces" value="no">
+                            <label for="public-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Family Working in Public Exposed Places</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="family-yes" name="familyPublic" value="yes" required>
+                            <label for="family-yes" class="toggle-label">Yes</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="family-no" name="familyPublic" value="no">
+                            <label for="family-no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span>Submit Assessment</span>
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p class="loading-text">Analyzing your risk factors...</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">🎯</div>
+            <h2 class="modal-title" id="modalTitle">Risk Assessment Complete</h2>
+            <div class="risk-badge" id="riskBadge">Moderate Risk</div>
+            <p class="modal-message" id="modalMessage">Your COVID-19 risk assessment has been calculated based on the information provided.</p>
+            <button class="modal-close" onclick="closeModal()">View Recommendations</button>
+        </div>
+    </div>
+    <script src="cov.js"></script>
+</body>
+</html>

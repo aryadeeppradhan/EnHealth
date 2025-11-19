@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnHealth - Sleep Disorder Prediction</title>
+
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <nav>
+        <div class="logo">EnHealth</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#health">Health</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">
+                <span class="title-icon">😴</span>
+                Sleep Disorder Prediction
+            </h1>
+            <p class="form-subtitle">Analyze your sleep patterns and lifestyle for potential sleep disorders</p>
+        </div>
+
+        <div class="info-banner">
+            <span class="info-icon">💡</span>
+            <p class="info-text">
+                <strong>Better Sleep Starts Here:</strong> This assessment evaluates various factors affecting your sleep quality. Accurate information helps provide better predictions and recommendations.
+            </p>
+        </div>
+
+        <form id="sleepForm">
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span>👤</span>
+                    Personal Information
+                </h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div class="gender-container">
+                            <div class="gender-option">
+                                <input type="radio" id="gender-male" name="gender" value="male" required>
+                                <label for="gender-male" class="gender-label">
+                                    <span>♂️</span> Male
+                                </label>
+                            </div>
+                            <div class="gender-option">
+                                <input type="radio" id="gender-female" name="gender" value="female">
+                                <label for="gender-female" class="gender-label">
+                                    <span>♀️</span> Female
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" placeholder="Enter your age" required min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="occupation">Occupation</label>
+                        <select id="occupation" name="occupation" required>
+                            <option value="">Select your occupation</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="engineer">Engineer</option>
+                            <option value="lawyer">Lawyer</option>
+                            <option value="manager">Manager</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="sales_representative">Sales Representative</option>
+                            <option value="salesperson">Salesperson</option>
+                            <option value="scientist">Scientist</option>
+                            <option value="software_engineer">Software Engineer</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sleep Metrics Section -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span>🌙</span>
+                    Sleep Metrics
+                </h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="sleepDuration">Sleep Duration <span class="label-hint">(hours)</span></label>
+                        <input type="number" id="sleepDuration" name="sleepDuration" placeholder="e.g., 7.5" required min="0" max="24" step="0.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sleepQuality">Quality of Sleep <span class="label-hint">(1-10)</span></label>
+                        <input type="number" id="sleepQuality" name="sleepQuality" placeholder="Rate 1-10" required min="1" max="10">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health & Lifestyle Section -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span>💪</span>
+                    Health & Lifestyle
+                </h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="physicalActivity">Physical Activity Level <span class="label-hint">(10-100)</span></label>
+                        <input type="number" id="physicalActivity" name="physicalActivity" placeholder="e.g., 60" required min="10" max="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stressLevel">Stress Level <span class="label-hint">(1-8)</span></label>
+                        <input type="number" id="stressLevel" name="stressLevel" placeholder="Rate 1-8" required min="1" max="8">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bmiCategory">BMI Category</label>
+                        <select id="bmiCategory" name="bmiCategory" required>
+                            <option value="">Select BMI category</option>
+                            <option value="normal">Normal Weight</option>
+                            <option value="obese">Obese</option>
+                            <option value="overweight">Overweight</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dailySteps">Daily Steps</label>
+                        <input type="number" id="dailySteps" name="dailySteps" placeholder="e.g., 8000" required min="0" max="50000">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vital Signs Section -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span>❤️</span>
+                    Vital Signs
+                </h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="heartRate">Heart Rate <span class="label-hint">(bpm)</span></label>
+                        <input type="number" id="heartRate" name="heartRate" placeholder="e.g., 72" required min="30" max="200">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="systolicBP">Systolic BP <span class="label-hint">(usually 120)</span></label>
+                        <input type="number" id="systolicBP" name="systolicBP" placeholder="e.g., 120" required min="70" max="200">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diastolicBP">Diastolic BP <span class="label-hint">(usually 80)</span></label>
+                        <input type="number" id="diastolicBP" name="diastolicBP" placeholder="e.g., 80" required min="40" max="130">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span>Analyze Sleep Pattern</span>
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p class="loading-text">Analyzing your sleep data...</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">🎯</div>
+            <h2 class="modal-title" id="modalTitle">Analysis Complete</h2>
+            <div class="disorder-badge" id="disorderBadge">No Disorder Detected</div>
+            <p class="modal-message" id="modalMessage">Your sleep pattern assessment has been completed based on the information provided.</p>
+            <button class="modal-close" onclick="closeModal()">View Recommendations</button>
+        </div>
+    </div>
+>
+</body>
+</html>

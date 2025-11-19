@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="diab.css">
+    <title>EnHealth - Diabetes Prediction</title>
+
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <nav>
+        <div class="logo">EnHealth</div>
+        <ul class="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/health.html">Health</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">
+                <span class="title-icon">💉</span>
+                Diabetes Prediction
+            </h1>
+            <p class="form-subtitle">Fill in your health information for AI-powered risk assessment</p>
+        </div>
+
+        <form id="diabetesForm">
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" placeholder="Enter your age" required min="1" max="120">
+            </div>
+
+            <div class="form-group">
+                <label for="familyHistory">Family Diabetes History</label>
+                <select id="familyHistory" name="familyHistory" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bloodPressure">High Blood Pressure</label>
+                <select id="bloodPressure" name="bloodPressure" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bmi">BMI (Body Mass Index)</label>
+                <input type="number" id="bmi" name="bmi" placeholder="Enter your BMI" required min="10" max="60" step="0.1">
+            </div>
+
+            <div class="form-group">
+                <label for="alcohol">Alcohol Consumption</label>
+                <select id="alcohol" name="alcohol" required>
+                    <option value="">Select an option</option>
+                    <option value="never">Never</option>
+                    <option value="occasionally">Occasionally</option>
+                    <option value="regularly">Regularly</option>
+                    <option value="frequently">Frequently</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sleep">Sleep per Day (hours)</label>
+                <input type="number" id="sleep" name="sleep" placeholder="Average hours of sleep" required min="0" max="24" step="0.5">
+            </div>
+
+            <div class="form-group">
+                <label for="medicine">Regular Medicine Consumption</label>
+                <select id="medicine" name="medicine" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="junkFood">Junk Food Consumption</label>
+                <select id="junkFood" name="junkFood" required>
+                    <option value="">Select frequency</option>
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="sometimes">Sometimes</option>
+                    <option value="often">Often</option>
+                    <option value="daily">Daily</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="stress">Stress Level</label>
+                <select id="stress" name="stress" required>
+                    <option value="">Select stress level</option>
+                    <option value="low">Low</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="high">High</option>
+                    <option value="veryHigh">Very High</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bloodPressureLevel">Blood Pressure Level</label>
+                <select id="bloodPressureLevel" name="bloodPressureLevel" required>
+                    <option value="">Select blood pressure level</option>
+                    <option value="low">Low</option>
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                    <option value="veryHigh">Very High</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="pregnancies">Number of Pregnancies</label>
+                <input type="number" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies" required min="0" max="20">
+            </div>
+
+            <div class="form-group">
+                <label for="preDiabetes">Pre-Diabetes</label>
+                <select id="preDiabetes" name="preDiabetes" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="urination">Urination Frequency</label>
+                <select id="urination" name="urination" required>
+                    <option value="">Select frequency</option>
+                    <option value="normal">Normal</option>
+                    <option value="frequent">Frequent</option>
+                    <option value="veryFrequent">Very Frequent</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span>Submit for Prediction</span>
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p class="loading-text">Analyzing your health data...</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">🎯</div>
+            <h2 class="modal-title" id="modalTitle">Prediction Complete</h2>
+            <p class="modal-message" id="modalMessage">Your diabetes risk assessment has been calculated based on the information provided.</p>
+            <button class="modal-close" onclick="closeModal()">View Detailed Report</button>
+        </div>
+    </div>
+
+</body>
+</html>

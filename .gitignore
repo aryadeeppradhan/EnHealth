@@ -3,4 +3,5 @@ package-lock.json
 enhealth.db
 *.sqlite
 *.sqlite3
-
+.venv/
+__pycache__/

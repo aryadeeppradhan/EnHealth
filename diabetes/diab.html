@@ -158,10 +158,49 @@
             <div class="modal-icon" id="modalIcon">🎯</div>
             <h2 class="modal-title" id="modalTitle">Prediction Complete</h2>
             <p class="modal-message" id="modalMessage">Your diabetes risk assessment has been calculated based on the information provided.</p>
-            <button class="modal-close" onclick="closeModal()">View Detailed Report</button>
+            <div class="modal-actions">
+                <button class="modal-close" type="button" data-action="close-result">Close</button>
+                <button class="modal-cta" type="button" data-action="download-report">Download Report</button>
+                <button class="modal-cta outline" type="button" data-action="view-recommendations">View Recommendations</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="recommendationModal">
+        <div class="modal-content recommendations">
+            <div class="recommendation-header">
+                <button class="modal-back" type="button" data-action="back-to-result">← Back to result</button>
+                <div>
+                    <p class="recommendation-pill" id="recTag">Stay balanced</p>
+                    <h3 id="recTitle">Diabetes Prevention & Management</h3>
+                    <p class="recommendation-subtitle" id="recSubtitle">
+                        Watch and read tailored resources to keep your glucose in check.
+                    </p>
+                </div>
+            </div>
+            <div class="recommendation-grid">
+                <div class="recommendation-card video-card">
+                    <h4>Watch</h4>
+                    <div class="video-wrapper">
+                        <iframe id="recVideo" src="" title="Diabetes recommendation video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="recommendation-card article-card">
+                    <h4>Read</h4>
+                    <h5 id="recArticleTitle">Evidence-based lifestyle tips</h5>
+                    <p id="recArticleSummary">
+                        Understand how nutrition, physical activity, and routine lab work can keep your blood sugar on track.
+                    </p>
+                    <a id="recArticleLink" class="article-link" href="#" target="_blank" rel="noopener">
+                        Open article →
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <script src="../auth.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
     <script src="diab.js" defer></script>
 
 </body>

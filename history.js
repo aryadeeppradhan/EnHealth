@@ -17,6 +17,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     entries.forEach((entry) => {
+      const resources = entry.result?.resources || {};
+      const hasVideo = Boolean(resources.video?.url);
+      const hasArticle = Boolean(resources.article?.url);
+      const resourcesHtml =
+        hasVideo || hasArticle
+          ? `
+        <div class="history-resources">
+          <p class="history-resources-title">Recommendations</p>
+          <div class="history-resource-links">
+            ${
+              hasVideo
+                ? `<a href="${resources.video.url}" target="_blank" rel="noopener">Watch video →</a>`
+                : ''
+            }
+            ${
+              hasArticle
+                ? `<a href="${resources.article.url}" target="_blank" rel="noopener">${resources.article.title || 'Read article'} →</a>`
+                : ''
+            }
+          </div>
+        </div>`
+          : '';
       const card = document.createElement('article');
       card.className = 'history-card';
       card.innerHTML = `
@@ -26,6 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </header>
         <p class="history-title">${entry.result.title}</p>
         <p class="history-message">${entry.result.message}</p>
+        ${resourcesHtml}
         <details>
           <summary>Inputs</summary>
           <ul>${Object.entries(entry.inputs).map(([k,v]) => `<li><strong>${k}</strong>: ${v}</li>`).join('')}</ul>

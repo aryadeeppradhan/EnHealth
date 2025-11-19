@@ -63,7 +63,19 @@ const form = document.getElementById('covidForm');
             modalMessage.textContent = message;
             riskBadge.textContent = riskLevel;
             riskBadge.className = 'risk-badge ' + riskClass;
-            
+            const entry = {
+                type: 'covid-19',
+                timestamp: new Date().toISOString(),
+                inputs: data,
+                result: {
+                    riskLevel,
+                    title: modalTitle.textContent,
+                    message: modalMessage.textContent
+                }
+            };
+            if (window.EnHealthAuth?.isLoggedIn()) {
+                EnHealthAuth.saveHistory(entry);
+            }
             modal.classList.add('active');
         }
 

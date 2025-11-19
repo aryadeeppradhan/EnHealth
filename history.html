@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="history.css" />
+  <title>EnHealth – Your History</title>
+  <script src="auth.js" defer></script>
+  <script src="history.js" defer></script>
+</head>
+<body>
+  <nav>
+    <div class="logo">EnHealth</div>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/health.html">Health</a></li>
+      <li><a href="/history.html">History</a></li>
+      <li><a href="#" data-action="logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="history-wrapper">
+    <header>
+      <h1>Past Assessments</h1>
+      <p>Revisit every prediction you’ve made.</p>
+    </header>
+
+    <section id="historyList" class="history-grid"></section>
+    <template id="emptyHistory">
+      <div class="history-empty">
+        <p>No predictions yet. Start from the <a href="health.html">Health page</a>.</p>
+      </div>
+    </template>
+  </main>
+</body>
+</html>

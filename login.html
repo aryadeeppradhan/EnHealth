@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="login.css" />
+  <title>EnHealth – Sign in</title>
+  <script src="auth.js" defer></script>
+  <script src="login.js" defer></script>
+</head>
+<body data-public="true">
+  <div class="auth-hero">
+    <div class="auth-card">
+      <h1>Welcome back</h1>
+      <p>Log in to continue with your health assessments.</p>
+
+      <form id="loginForm">
+        <label>Email
+          <input type="email" name="email" placeholder="you@example.com" required />
+        </label>
+        <label>Password
+          <input type="password" name="password" minlength="6" required />
+        </label>
+
+        <div class="auth-actions">
+          <button type="submit" class="primary">Continue</button>
+          <button type="button" id="toggleMode" class="ghost">Create account instead</button>
+        </div>
+        <p id="loginStatus" class="auth-status"></p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

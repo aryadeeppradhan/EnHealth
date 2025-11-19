@@ -1,0 +1,205 @@
+:root {
+  --bg: #020617;
+  --panel: rgba(15, 23, 42, 0.85);
+  --muted: #94a3b8;
+  --accent: #4ade80;
+  --border: rgba(148, 163, 184, 0.3);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top, rgba(74, 222, 128, 0.25), transparent 55%),
+              #020617;
+  color: #f8fafc;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 5vw;
+  background: rgba(2, 6, 23, 0.85);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  color: #cbd5f5;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.history-wrapper {
+  width: min(1200px, 92vw);
+  margin: 4rem auto 5rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.history-wrapper > header {
+  display: grid;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.history-wrapper h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0;
+}
+
+.history-wrapper p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.history-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.history-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadeIn 0.45s ease forwards;
+}
+
+.history-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.history-tag {
+  padding: 0.2rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  border: 1px solid var(--tag, var(--accent));
+  color: var(--tag, var(--accent));
+  background: color-mix(in srgb, var(--tag, var(--accent)) 20%, transparent);
+}
+
+.history-card time {
+  font-size: 0.85rem;
+}
+
+.history-title {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.history-message {
+  margin: 0;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+
+.history-card details {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.95rem;
+  padding: 0.85rem 1rem;
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.history-card summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #cbd5f5;
+}
+
+.history-card summary::marker {
+  color: var(--accent);
+}
+
+.history-card details[open] {
+  border-color: rgba(74, 222, 128, 0.45);
+}
+
+.history-card details ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1rem;
+  color: var(--muted);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.history-card details li {
+  font-size: 0.9rem;
+}
+
+.history-card details strong {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.history-empty {
+  text-align: center;
+  border: 1px dashed rgba(148, 163, 184, 0.4);
+  border-radius: 1.25rem;
+  padding: 3rem 1.5rem;
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--muted);
+}
+
+.history-empty a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

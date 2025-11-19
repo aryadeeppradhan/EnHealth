@@ -45,7 +45,19 @@ const modal = document.getElementById('resultModal');
                 modalTitle.textContent = 'Moderate Risk Detected';
                 modalMessage.textContent = 'Your health profile indicates moderate diabetes risk. We recommend consulting with a healthcare professional and adopting healthier lifestyle choices.';
             }
-            
+            const entry = {
+                type: 'diabetes',
+                timestamp: new Date().toISOString(),
+                inputs: data,
+                result: {
+                    riskLevel,
+                    title: modalTitle.textContent,
+                    message: modalMessage.textContent
+                }
+            };
+            if (window.EnHealthAuth?.isLoggedIn()) {
+                EnHealthAuth.saveHistory(entry);
+            }
             modal.classList.add('active');
         }
 

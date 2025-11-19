@@ -88,7 +88,19 @@ const form = document.getElementById('sleepForm');
             modalTitle.textContent = title;
             modalMessage.textContent = message;
             disorderBadge.setAttribute('style', badgeStyle);
-            
+            const entry = {
+                type: 'Sleep Disorder',
+                timestamp: new Date().toISOString(),
+                inputs: data,
+                result: {
+                    riskLevel,
+                    title: modalTitle.textContent,
+                    message: modalMessage.textContent
+                }
+            };
+            if (window.EnHealthAuth?.isLoggedIn()) {
+                EnHealthAuth.saveHistory(entry);
+            }
             modal.classList.add('active');
         }
 

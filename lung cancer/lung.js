@@ -91,7 +91,19 @@ const form = document.getElementById('lungCancerForm');
             modalIcon.textContent = icon;
             modalTitle.textContent = title;
             modalMessage.textContent = message;
-            
+            const entry = {
+                type: 'Lung Cancer',
+                timestamp: new Date().toISOString(),
+                inputs: data,
+                result: {
+                    riskLevel,
+                    title: modalTitle.textContent,
+                    message: modalMessage.textContent
+                }
+            };
+            if (window.EnHealthAuth?.isLoggedIn()) {
+                EnHealthAuth.saveHistory(entry);
+            }
             modal.classList.add('active');
         }
 

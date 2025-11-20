@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     diabetes: '#f97316',
     covid: '#6366f1',
     lung: '#0ea5e9',
-    sleep: '#a855f7'
+    sleep: '#a855f7',
+    stress: '#22d3ee'
   };
 
   try {

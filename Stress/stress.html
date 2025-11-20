@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnHealth - Stress Level Prediction</title>
+    <link rel="stylesheet" href="./stress.css">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <nav>
+        <div class="logo">EnHealth</div>
+        <ul class="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/health.html">Health</a></li>
+            <li><a href="/history.html">History</a></li>
+            <li><a href="#" data-action="logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">
+                <span class="title-icon">🧠</span>
+                Stress Level Prediction
+            </h1>
+            <p class="form-subtitle">Analyze your lifestyle and environmental factors to assess stress levels</p>
+        </div>
+
+        <div class="info-banner">
+            <span class="info-icon">💜</span>
+            <p class="info-text">
+                <strong>Mental Wellness Matters:</strong> Understanding your stress levels is the first step towards better mental health. This assessment considers multiple lifestyle factors affecting your well-being.
+            </p>
+        </div>
+
+        <form id="stressForm">
+            <!-- Environmental Factors Section -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span>🌡️</span>
+                    Environmental Factors
+                </h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="humidity">Humidity <span class="label-hint">(%)</span></label>
+                        <input type="number" id="humidity" name="humidity" placeholder="e.g., 65" required min="0" max="100" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">Temperature <span class="label-hint">(°C)</span></label>
+                        <input type="number" id="temperature" name="temperature" placeholder="e.g., 25" required min="-20" max="50" step="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity & Health Section -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span>🏃</span>
+                    Daily Activity & Health
+                </h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="stepCount">Step Count</label>
+                        <input type="number" id="stepCount" name="stepCount" placeholder="e.g., 8000" required min="0" max="50000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sleepHours">Sleep Hours</label>
+                        <input type="number" id="sleepHours" name="sleepHours" placeholder="e.g., 7.5" required min="0" max="24" step="0.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="waterIntake">Water Intake <span class="label-hint">(Liters)</span></label>
+                        <input type="number" id="waterIntake" name="waterIntake" placeholder="e.g., 2.5" required min="0" max="10" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="screenTime">Screen Time <span class="label-hint">(Hours)</span></label>
+                        <input type="number" id="screenTime" name="screenTime" placeholder="e.g., 6" required min="0" max="24" step="0.5">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stress & Mental Health Section -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span>😌</span>
+                    Mood Indicator
+                </h3>
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="moodLevel">Mood Level <span class="label-hint">(1-10)</span></label>
+                        <input type="range" id="moodLevel" name="moodLevel" min="1" max="10" value="5" step="1">
+                        <div class="range-value-display">
+                            <span class="range-value" id="moodValue">5</span>
+                        </div>
+                        <div class="range-labels">
+                            <span>Very Low (1)</span>
+                            <span>Very High (10)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span>Analyze Stress Level</span>
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p class="loading-text">Analyzing your stress indicators...</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">🎯</div>
+            <h2 class="modal-title" id="modalTitle">Analysis Complete</h2>
+            <div class="stress-badge" id="stressBadge">Moderate Stress</div>
+            <p class="modal-message" id="modalMessage">Your stress level assessment has been completed based on the information provided.</p>
+            <div class="modal-actions">
+                <button class="modal-close" type="button" data-action="close-result">Close</button>
+                <button class="modal-cta" type="button" data-action="download-report">Download Report</button>
+                <button class="modal-cta outline" type="button" data-action="view-recommendations">View Recommendations</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="recommendationModal">
+        <div class="modal-content recommendations">
+            <div class="recommendation-header">
+                <button class="modal-back" type="button" data-action="back-to-result">← Back to result</button>
+                <div>
+                    <p class="recommendation-pill" id="recTag">Stay balanced</p>
+                    <h3 id="recTitle">Stress Relief Resources</h3>
+                    <p class="recommendation-subtitle" id="recSubtitle">
+                        Targeted video and article to help you recover faster.
+                    </p>
+                </div>
+            </div>
+            <div class="recommendation-grid">
+                <div class="recommendation-card video-card">
+                    <h4>Watch</h4>
+                    <div class="video-wrapper">
+                        <iframe id="recVideo" src="" title="Stress recommendation video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="recommendation-card article-card">
+                    <h4>Read</h4>
+                    <h5 id="recArticleTitle">Healthy coping techniques</h5>
+                    <p id="recArticleSummary">
+                        Explore medically reviewed strategies for managing daily stressors and protecting your mood.
+                    </p>
+                    <a id="recArticleLink" class="article-link" href="#" target="_blank" rel="noopener">
+                        Open article →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../auth.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+    <script src="./stress.js" defer></script>
+</body>
+</html>

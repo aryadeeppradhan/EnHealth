@@ -27,6 +27,7 @@ diabetes_model = load_model("diabetes/diabetes.pkl")
 lung_model = load_model("lung cancer/lungs.pkl")
 covid_model = load_model("covid-19/covid.pkl")
 sleep_model = load_model("Sleep Disorder/sleep2.pkl")
+stress_model = load_model("Stress/stress_rf_model.pkl")
 
 DIABETES_FEATURES: List[str] = diabetes_model.feature_names_in_.tolist()
 DIABETES_POS_INDEX = list(diabetes_model.classes_).index("1")
@@ -40,6 +41,8 @@ COVID_POS_INDEX = list(covid_model.classes_).index(1)
 SLEEP_FEATURES: List[str] = sleep_model.feature_names_in_.tolist()
 SLEEP_CLASS_LABELS = {0: "Insomnia", 1: "No Sleep Disorder", 2: "Sleep Apnea"}
 SLEEP_CLASS_INDEX = {int(value): idx for idx, value in enumerate(sleep_model.classes_)}
+STRESS_FEATURES: List[str] = stress_model.feature_names_in_.tolist()
+STRESS_CLASS_MAP = {"0": "low", "1": "moderate", "2": "high"}
 
 YES_VALUES = {"yes", "true", "1", "y"}
 NO_VALUES = {"no", "false", "0", "n"}
@@ -212,6 +215,19 @@ def build_sleep_vector(payload: Dict) -> pd.DataFrame:
   return as_vector(SLEEP_FEATURES, values)
 
 
+def build_stress_vector(payload: Dict) -> pd.DataFrame:
+  values = {
+      "Humidity": parse_float(payload.get("humidity"), "humidity"),
+      "Temperature": parse_float(payload.get("temperature"), "temperature"),
+      "Step count": parse_float(payload.get("stepCount"), "stepCount"),
+      "Sleep_Hours": parse_float(payload.get("sleepHours"), "sleepHours"),
+      "Water_Intake_Liters": parse_float(payload.get("waterIntake"), "waterIntake"),
+      "Screen_Time_Hours": parse_float(payload.get("screenTime"), "screenTime"),
+      "Mood_Level": parse_float(payload.get("moodLevel"), "moodLevel"),
+  }
+  return as_vector(STRESS_FEATURES, values)
+
+
 def prediction_response(condition: str, result: Dict):
   return jsonify({"condition": condition, "result": result})
 
@@ -374,6 +390,46 @@ def sleep_prediction():
       "message": message,
   }
   return prediction_response("sleep", result)
+
+
+@app.post("/api/stress")
+def stress_prediction():
+  payload = request.get_json(silent=True) or {}
+  try:
+    vector = build_stress_vector(payload)
+  except ValueError as exc:
+    return jsonify({"error": str(exc)}), 400
+
+  probabilities = stress_model.predict_proba(vector)[0]
+  prediction = stress_model.predict(vector)[0]
+  class_index = list(stress_model.classes_).index(prediction)
+  confidence = float(probabilities[class_index])
+  risk_level = STRESS_CLASS_MAP.get(str(prediction), "moderate")
+
+  messages = {
+      "low": (
+          "Low Stress Detected",
+          "Your inputs reflect a healthy stress balance. Keep prioritizing rest, hydration, and mindful breaks."
+      ),
+      "moderate": (
+          "Moderate Stress Detected",
+          "You're managing stress, but your routine could use more recovery time. Consider breath work and screen-time limits."
+      ),
+      "high": (
+          "High Stress Detected",
+          "Your score suggests elevated stress. Schedule downtime, reach out for support, and consider speaking with a professional."
+      )
+  }
+  title, message = messages.get(risk_level, messages["moderate"])
+
+  result = {
+      "label": risk_level,
+      "riskLevel": risk_level,
+      "probability": confidence,
+      "title": title,
+      "message": message,
+  }
+  return prediction_response("stress", result)
 
 
 if __name__ == "__main__":
